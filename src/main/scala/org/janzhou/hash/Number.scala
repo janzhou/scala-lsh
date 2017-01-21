@@ -30,10 +30,13 @@ class NumberInt(val self:Int) extends Number[Int] {
   def *(x: Int): Int = self * x
 }
 
-object Number {
+object Number extends NumberConversions {
   def dot[T <% Number[T]](a: Iterable[T], b: Iterable[T])(implicit zero: Number[T]):T = {
     a.zip(b).map({ case (x, y) => x*y }).foldLeft(zero.T)(_+_)
   }
+}
+
+trait NumberConversions {
 
   import scala.language.implicitConversions
 
