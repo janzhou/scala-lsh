@@ -1,4 +1,4 @@
-package org.janzhou.hash.lsh
+package org.janzhou.hash.LSH
 
 import org.janzhou.hash._
 import org.janzhou.hash.Number._

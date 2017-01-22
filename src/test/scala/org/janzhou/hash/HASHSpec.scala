@@ -1,14 +1,12 @@
-package org.janzhou.hash.lsh
-
-import org.janzhou.hash.Number
+package org.janzhou.hash
 
 import org.scalatest._
 import scala.io.Source
 
 class HASHSpec extends FlatSpec with Matchers {
   it should "test LSH" in {
-    val hash = LSH(2)
-    val hash2 = LSH(2)
+    val hash = LSH.HyperplaneLSH(2)
+    val hash2 = LSH.HyperplaneLSH(2)
     hash.hash(Array(2,2)) shouldEqual Number.dot(Array(2,2), hash.seed)
     hash(Array(2,2)) shouldEqual hash(Array(2,2))
     hash(Array(1,2)) shouldEqual hash(Array(1,2))
