@@ -35,19 +35,19 @@ package object LSH extends NumberConversions {
   }
 
   def forInt(dim:Int, min:Int, max:Int, repeating:Int):RepeatingLSH[Int] = {
-    val hashs = Array.fill(repeating)(
+    val signature = new HyperplaneSignatureLSH(Array.fill(repeating)(
       seed(dim, min, max)
-    ).map(seed => new HyperplaneLSH(seed))
+    ))
 
-    new RepeatingLSH(hashs)
+    new RepeatingLSH(signature)
   }
 
   def forInt(dim:Int, repeating:Int):RepeatingLSH[Int] = {
-    val hashs = Array.fill(repeating)(
+    val signature = new HyperplaneSignatureLSH(Array.fill(repeating)(
       seed(dim)
-    ).map(seed => new HyperplaneLSH(seed))
+    ))
 
-    new RepeatingLSH(hashs)
+    new RepeatingLSH(signature)
   }
 
   def move(min:Byte, max:Byte, data:Iterable[Byte]) = {
@@ -56,18 +56,18 @@ package object LSH extends NumberConversions {
   }
 
   def forBytes(dim:Int, min:Byte, max:Byte, repeating:Int):RepeatingLSH[Byte] = {
-    val hashs = Array.fill(repeating)(
+    val signature = new HyperplaneSignatureLSH(Array.fill(repeating)(
       seed(dim, min, max).map(_.toByte)
-    ).map(seed => new HyperplaneLSH(seed))
+    ))
 
-    new RepeatingLSH(hashs)
+    new RepeatingLSH(signature)
   }
 
   def forBytes(dim:Int, repeating:Int):RepeatingLSH[Byte] = {
-    val hashs = Array.fill(repeating)(
+    val signature = new HyperplaneSignatureLSH(Array.fill(repeating)(
       seed(dim).map(_.toByte)
-    ).map(seed => new HyperplaneLSH(seed))
+    ))
 
-    new RepeatingLSH(hashs)
+    new RepeatingLSH(signature)
   }
 }
