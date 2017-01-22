@@ -3,12 +3,13 @@ package org.janzhou.hash.lsh
 import org.janzhou.hash._
 import org.janzhou.hash.Number._
 
-class HyperplaneLSH[T <% Number[T]](val seed:Iterable[T]) extends HASH[T] {
-  def apply(data:Iterable[T])(implicit zero:Number[T]):T = {
+class HyperplaneLSH[T <% Number[T]](val seed:Iterable[T])(implicit zero:Number[T]) extends LSH[T] {
+  def hash(data:Iterable[T]):T = {
     seed * data
   }
-}
 
-object HyperplaneLSH {
-  def apply(seed:Array[Int]) = new HyperplaneLSH(seed)
+  def apply(data:Iterable[T]):Long = {
+    val H = hash(data)
+    if ( H > zero.T ) 1 else 0
+  }
 }

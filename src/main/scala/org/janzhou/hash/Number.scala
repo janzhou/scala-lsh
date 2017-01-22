@@ -3,31 +3,55 @@ package org.janzhou.hash
 trait Number[T] {
   def T:T
   def +(x: T): T
+  def -(x: T): T
   def *(x: T): T
+  def >(x: T): Boolean
+  def <(x: T): Boolean
 }
 
 class NumberDouble(val self:Double) extends Number[Double] {
   def T = self
   def +(x: Double): Double = self + x
+  def -(x: Double): Double = self - x
   def *(x: Double): Double = self * x
+  def >(x: Double): Boolean = self > x
+  def <(x: Double): Boolean = self < x
 }
 
 class NumberFloat(val self:Float) extends Number[Float] {
   def T = self
   def +(x: Float): Float = self + x
+  def -(x: Float): Float = self - x
   def *(x: Float): Float = self * x
+  def <(x: Float): Boolean = self < x
+  def >(x: Float): Boolean = self > x
 }
 
 class NumberLong(val self:Long) extends Number[Long] {
   def T = self
   def +(x: Long): Long = self + x
+  def -(x: Long): Long = self - x
   def *(x: Long): Long = self * x
+  def <(x: Long): Boolean = self < x
+  def >(x: Long): Boolean = self > x
 }
 
 class NumberInt(val self:Int) extends Number[Int] {
   def T = self
   def +(x: Int): Int = self + x
+  def -(x: Int): Int = self - x
   def *(x: Int): Int = self * x
+  def <(x: Int): Boolean = self < x
+  def >(x: Int): Boolean = self > x
+}
+
+class NumberByte(val self:Byte) extends Number[Byte] {
+  def T = self
+  def +(x: Byte): Byte = (self + x).asInstanceOf[ Byte ]
+  def -(x: Byte): Byte = (self - x).asInstanceOf[ Byte ]
+  def *(x: Byte): Byte = (self * x).asInstanceOf[ Byte ]
+  def <(x: Byte): Boolean = self < x
+  def >(x: Byte): Boolean = self > x
 }
 
 object Number extends NumberConversions {
@@ -65,4 +89,8 @@ trait NumberConversions {
   implicit def Int2NumberInt(x:Int):Number[Int] = new NumberInt(x)
   implicit def NumberInt2Int(x:NumberInt):Int = x.T
   implicit object ZeroInt extends NumberInt(0)
+
+  implicit def Byte2NumberByte(x:Byte):Number[Byte] = new NumberByte(x)
+  implicit def NumberByte2Byte(x:NumberByte):Byte = x.T
+  implicit object ZeroByte extends NumberByte(0)
 }
