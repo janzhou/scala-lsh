@@ -8,6 +8,7 @@ lazy val root = (project in file(".")).
       version      := "0.1.0-SNAPSHOT"
     )),
     name := "LSH",
+    crossScalaVersions := Seq("2.11.8", "2.12.1"),
     scalacOptions in Compile in doc ++= Seq(
       "-doc-title", "Locality Sensitive Hash"
     ),

@@ -1,23 +1,9 @@
-package org.janzhou.hash
+package org.janzhou.LSH
 
-import org.janzhou.hash._
-import org.janzhou.hash.Number._
-import org.janzhou.hash.LSH._
-
-/**
- * Locality Sensitive Hashing (LSH) is a family of hashing methods that tent to produce the same hash (or signature) for similar items.
- *
- * {{{
- * import org.janzhou.hash.LSH
- *
- * val hash = LSH.forInt(dimension, minValue, maxValue, repeating)
- * hash(LSH.move(minValue, maxValue, Array(...)))
- * }}}
-*/
-package object LSH extends NumberConversions {
+trait LSHHelper extends NumberConversions {
   val rand = new scala.util.Random(System.nanoTime)
 
-  def HyperplaneLSH(dim:Int):HyperplaneLSH[Int] = new HyperplaneLSH(Array.fill(dim)(rand.nextInt))
+  def hyperplane(dim:Int):HyperplaneLSH[Int] = new HyperplaneLSH(Array.fill(dim)(rand.nextInt))
 
   private def seed(dim:Int, min:Int, max:Int):Iterable[Int] = {
     val range = max - min

@@ -1,11 +1,8 @@
-package org.janzhou.hash.LSH
-
-import org.janzhou.hash._
-import org.janzhou.hash.Number._
+package org.janzhou.LSH
 
 class HyperplaneLSH[T <% Number[T]](val seed:Iterable[T])(implicit zero:Number[T]) extends LSH[T] {
   def signature(data:Iterable[T]):T = {
-    seed * data
+    Number.dot(seed, data)
   }
 
   def apply(data:Iterable[T]):Long = {

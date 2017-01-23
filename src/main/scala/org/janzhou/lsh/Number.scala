@@ -1,4 +1,4 @@
-package org.janzhou.hash
+package org.janzhou.LSH
 
 trait Number[T] {
   def T:T
@@ -54,7 +54,7 @@ class NumberByte(val self:Byte) extends Number[Byte] {
   def >(x: Byte): Boolean = self > x
 }
 
-object Number extends NumberConversions {
+object Number {
   def dot[T <% Number[T]](a: Iterable[T], b: Iterable[T])(implicit zero: Number[T]):T = {
     a.zip(b).map({ case (x, y) => x*y }).foldLeft(zero.T)(_+_)
   }

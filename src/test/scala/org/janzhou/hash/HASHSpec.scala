@@ -1,17 +1,20 @@
-package org.janzhou.hash
+package org.janzhou.test
+
+import org.janzhou.LSH
 
 import org.scalatest._
 import scala.io.Source
 
-class HASHSpec extends FlatSpec with Matchers {
+class HASHSpec extends FlatSpec with Matchers with LSH.NumberConversions {
   it should "test LSH" in {
-    val hash = LSH.HyperplaneLSH(2)
-    val hash2 = LSH.HyperplaneLSH(2)
-    hash.signature(Array(2,2)) shouldEqual Number.dot(Array(2,2), hash.seed)
+    val hash = LSH.hyperplane(2)
+    val hash2 = LSH.hyperplane(2)
     hash(Array(2,2)) shouldEqual hash(Array(2,2))
     hash(Array(1,2)) shouldEqual hash(Array(1,2))
   }
+}
 
+class LSHSpec extends FlatSpec with Matchers {
   def LSHTest(IntHash: Iterable[Int] => Unit){
     IntHash(Array(1,2,3,4))
     IntHash(Array(1,2,3,5))
@@ -27,8 +30,8 @@ class HASHSpec extends FlatSpec with Matchers {
     val IntMax = 255
     val _IntHash = LSH.forInt(4, 1000)
     def IntHash(s:Iterable[Int]){
-      val lsh = _IntHash(LSH.move(IntMin, IntMax, s))
-      println(s"lsh1($lsh):$s")
+      val hash = _IntHash(LSH.move(IntMin, IntMax, s))
+      println(s"lsh1($hash):$s")
     }
     LSHTest(IntHash)
   }
@@ -36,8 +39,8 @@ class HASHSpec extends FlatSpec with Matchers {
   it should "hash int LSH" in {
     val _IntHash = LSH.forInt(4, 100)
     def IntHash(s:Iterable[Int]){
-      val lsh = _IntHash(s)
-      println(s"lsh2($lsh):$s")
+      val hash = _IntHash(s)
+      println(s"lsh2($hash):$s")
     }
     LSHTest(IntHash)
   }
@@ -46,8 +49,8 @@ class HASHSpec extends FlatSpec with Matchers {
   val StrMax:Byte = 120
   val _StringHash = LSH.forBytes(64, StrMin, StrMax, 1000)
   def StringHash(s:String){
-    val lsh = _StringHash(LSH.move(StrMin, StrMax, s.getBytes))
-    println(s"lsh($lsh):$s")
+    val hash = _StringHash(LSH.move(StrMin, StrMax, s.getBytes))
+    println(s"lsh($hash):$s")
   }
 
   it should "hash string HyperplaneLSH" in {
