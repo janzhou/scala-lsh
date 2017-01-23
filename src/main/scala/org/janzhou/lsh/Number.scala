@@ -9,6 +9,7 @@ trait Number[T] {
   def +(x: T): T
   def -(x: T): T
   def *(x: T): T
+  def %(x: T): T
   def >(x: T): Boolean
   def <(x: T): Boolean
 }
@@ -17,6 +18,7 @@ class NumberDouble(val self:Double) extends Number[Double] {
   def +(x: Double): Double = self + x
   def -(x: Double): Double = self - x
   def *(x: Double): Double = self * x
+  def %(x: Double): Double = self % x
   def >(x: Double): Boolean = self > x
   def <(x: Double): Boolean = self < x
 }
@@ -25,6 +27,7 @@ class NumberFloat(val self:Float) extends Number[Float] {
   def +(x: Float): Float = self + x
   def -(x: Float): Float = self - x
   def *(x: Float): Float = self * x
+  def %(x: Float): Float = self % x
   def <(x: Float): Boolean = self < x
   def >(x: Float): Boolean = self > x
 }
@@ -33,6 +36,7 @@ class NumberLong(val self:Long) extends Number[Long] {
   def +(x: Long): Long = self + x
   def -(x: Long): Long = self - x
   def *(x: Long): Long = self * x
+  def %(x: Long): Long = self % x
   def <(x: Long): Boolean = self < x
   def >(x: Long): Boolean = self > x
 }
@@ -41,6 +45,7 @@ class NumberInt(val self:Int) extends Number[Int] {
   def +(x: Int): Int = self + x
   def -(x: Int): Int = self - x
   def *(x: Int): Int = self * x
+  def %(x: Int): Int = self % x
   def <(x: Int): Boolean = self < x
   def >(x: Int): Boolean = self > x
 }
@@ -48,6 +53,10 @@ class NumberInt(val self:Int) extends Number[Int] {
 object Number {
   def dot[T <% Number[T]](a: Iterable[T], b: Iterable[T])(implicit zero: Number[T]):T = {
     a.zip(b).map({ case (x, y) => x*y }).foldLeft(zero.self)(_+_)
+  }
+
+  def hashCode[T <% Number[T]](x: T, a: T, b: T, prime: T):T = {
+    (a * x + b ) % prime
   }
 }
 
