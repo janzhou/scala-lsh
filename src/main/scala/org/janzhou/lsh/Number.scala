@@ -1,7 +1,11 @@
 package org.janzhou.LSH
 
+/**
+ * Define Number operations required for LSH.
+ * To support custom data types, you must defind implicit conversion and implicit zero value.
+ */
 trait Number[T] {
-  def T:T
+  val self: T
   def +(x: T): T
   def -(x: T): T
   def *(x: T): T
@@ -10,7 +14,6 @@ trait Number[T] {
 }
 
 class NumberDouble(val self:Double) extends Number[Double] {
-  def T = self
   def +(x: Double): Double = self + x
   def -(x: Double): Double = self - x
   def *(x: Double): Double = self * x
@@ -19,7 +22,6 @@ class NumberDouble(val self:Double) extends Number[Double] {
 }
 
 class NumberFloat(val self:Float) extends Number[Float] {
-  def T = self
   def +(x: Float): Float = self + x
   def -(x: Float): Float = self - x
   def *(x: Float): Float = self * x
@@ -28,7 +30,6 @@ class NumberFloat(val self:Float) extends Number[Float] {
 }
 
 class NumberLong(val self:Long) extends Number[Long] {
-  def T = self
   def +(x: Long): Long = self + x
   def -(x: Long): Long = self - x
   def *(x: Long): Long = self * x
@@ -37,7 +38,6 @@ class NumberLong(val self:Long) extends Number[Long] {
 }
 
 class NumberInt(val self:Int) extends Number[Int] {
-  def T = self
   def +(x: Int): Int = self + x
   def -(x: Int): Int = self - x
   def *(x: Int): Int = self * x
@@ -45,18 +45,9 @@ class NumberInt(val self:Int) extends Number[Int] {
   def >(x: Int): Boolean = self > x
 }
 
-class NumberByte(val self:Byte) extends Number[Byte] {
-  def T = self
-  def +(x: Byte): Byte = (self + x).asInstanceOf[ Byte ]
-  def -(x: Byte): Byte = (self - x).asInstanceOf[ Byte ]
-  def *(x: Byte): Byte = (self * x).asInstanceOf[ Byte ]
-  def <(x: Byte): Boolean = self < x
-  def >(x: Byte): Boolean = self > x
-}
-
 object Number {
   def dot[T <% Number[T]](a: Iterable[T], b: Iterable[T])(implicit zero: Number[T]):T = {
-    a.zip(b).map({ case (x, y) => x*y }).foldLeft(zero.T)(_+_)
+    a.zip(b).map({ case (x, y) => x*y }).foldLeft(zero.self)(_+_)
   }
 }
 
@@ -75,22 +66,18 @@ trait NumberConversions {
   }
 
   implicit def Double2DumberDouble(x:Double):Number[Double] = new NumberDouble(x)
-  implicit def NumberDouble2Double(x:NumberDouble):Double = x.T
+  implicit def NumberDouble2Double(x:NumberDouble):Double = x.self
   implicit object ZeroDouble extends NumberDouble(0)
 
   implicit def Float2NumberFloat(x:Float):Number[Float] = new NumberFloat(x)
-  implicit def NumberFloat2Float(x:NumberFloat):Float = x.T
+  implicit def NumberFloat2Float(x:NumberFloat):Float = x.self
   implicit object ZeroFloat extends NumberFloat(0)
 
   implicit def Long2NumberLong(x:Long):Number[Long] = new NumberLong(x)
-  implicit def NumberLong2Long(x:NumberLong):Long = x.T
+  implicit def NumberLong2Long(x:NumberLong):Long = x.self
   implicit object ZeroLong extends NumberLong(0)
 
   implicit def Int2NumberInt(x:Int):Number[Int] = new NumberInt(x)
-  implicit def NumberInt2Int(x:NumberInt):Int = x.T
+  implicit def NumberInt2Int(x:NumberInt):Int = x.self
   implicit object ZeroInt extends NumberInt(0)
-
-  implicit def Byte2NumberByte(x:Byte):Number[Byte] = new NumberByte(x)
-  implicit def NumberByte2Byte(x:NumberByte):Byte = x.T
-  implicit object ZeroByte extends NumberByte(0)
 }

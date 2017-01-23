@@ -15,6 +15,9 @@ class HASHSpec extends FlatSpec with Matchers with LSH.NumberConversions {
 }
 
 class LSHSpec extends FlatSpec with Matchers {
+  val IntMin = 0
+  val IntMax = 255
+
   def LSHTest(IntHash: Iterable[Int] => Unit){
     IntHash(Array(1,2,3,4))
     IntHash(Array(1,2,3,5))
@@ -22,40 +25,26 @@ class LSHSpec extends FlatSpec with Matchers {
     IntHash(Array(8,4,30,15))
     IntHash(Array(8,224,129,34))
     IntHash(Array(255,224,129,34))
+    IntHash(Array(255,225,129,34))
+    IntHash(Array(255,225,139,34))
     IntHash(Array(255,224,229,234))
   }
 
-  it should "hash int min max LSH" in {
-    val IntMin = 0
-    val IntMax = 255
-    val _IntHash = LSH.forInt(4, 1000)
-    def IntHash(s:Iterable[Int]){
-      val hash = _IntHash(LSH.move(IntMin, IntMax, s))
-      println(s"lsh1($hash):$s")
-    }
-    LSHTest(IntHash)
-  }
-
-  it should "hash int LSH" in {
+  it should "hash int Gaussian LSH" in {
     val _IntHash = LSH.forInt(4, 100)
     def IntHash(s:Iterable[Int]){
-      val hash = _IntHash(s)
-      println(s"lsh2($hash):$s")
+      val hash = _IntHash(LSH.move(IntMin, IntMax, s))
+      println(s"Gaussian LSH($hash):$s")
     }
     LSHTest(IntHash)
   }
 
-  val StrMin:Byte = 48
-  val StrMax:Byte = 120
-  val _StringHash = LSH.forBytes(64, StrMin, StrMax, 1000)
-  def StringHash(s:String){
-    val hash = _StringHash(LSH.move(StrMin, StrMax, s.getBytes))
-    println(s"lsh($hash):$s")
-  }
-
-  it should "hash string HyperplaneLSH" in {
-    for (line <- Source.fromFile("LICENSE").getLines()) {
-      StringHash(line)
+  it should "hash int MinMax LSH" in {
+    val _IntHash = LSH.forInt(4, IntMin, IntMax, 100)
+    def IntHash(s:Iterable[Int]){
+      val hash = _IntHash(LSH.move(IntMin, IntMax, s))
+      println(s"MinMax LSH($hash):$s")
     }
+    LSHTest(IntHash)
   }
 }

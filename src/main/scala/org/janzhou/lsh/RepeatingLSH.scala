@@ -6,7 +6,7 @@ extends LSH[T] {
   private val seeds:Iterable[Long] = Array.fill(signature.size)(rand.nextLong())
 
   def apply(data:Iterable[T]):Long = Number.dot(
-    signature(data).map(x => if(x > zero.T) 1L else 0L),
+    signature(data).map(x => if(x > zero.self) 1L else 0L),
     seeds
   )
 }

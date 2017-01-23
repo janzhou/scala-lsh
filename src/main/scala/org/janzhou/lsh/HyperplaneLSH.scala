@@ -6,7 +6,7 @@ class HyperplaneLSH[T <% Number[T]](val seed:Iterable[T])(implicit zero:Number[T
   }
 
   def apply(data:Iterable[T]):Long = {
-    if ( signature(data) > zero.T ) 1 else 0
+    if ( signature(data) > zero.self ) 1 else 0
   }
 }
 

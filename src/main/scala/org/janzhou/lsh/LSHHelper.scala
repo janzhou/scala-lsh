@@ -35,25 +35,4 @@ trait LSHHelper extends NumberConversions {
 
     new RepeatingLSH(signature)
   }
-
-  def move(min:Byte, max:Byte, data:Iterable[Byte]) = {
-    val mid = (max + min)/2
-    data.map(x => (x - mid).toByte)
-  }
-
-  def forBytes(dim:Int, min:Byte, max:Byte, repeating:Int):RepeatingLSH[Byte] = {
-    val signature = new HyperplaneSignatureLSH(Array.fill(repeating)(
-      seed(dim, min, max).map(_.toByte)
-    ))
-
-    new RepeatingLSH(signature)
-  }
-
-  def forBytes(dim:Int, repeating:Int):RepeatingLSH[Byte] = {
-    val signature = new HyperplaneSignatureLSH(Array.fill(repeating)(
-      seed(dim).map(_.toByte)
-    ))
-
-    new RepeatingLSH(signature)
-  }
 }
