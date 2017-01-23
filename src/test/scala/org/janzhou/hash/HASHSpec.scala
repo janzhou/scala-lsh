@@ -47,4 +47,22 @@ class LSHSpec extends FlatSpec with Matchers {
     }
     LSHTest(IntHash)
   }
+
+  def SimilarityTest(IntSignature: Iterable[Int] => Iterable[Int], a:Iterable[Int], b:Iterable[Int]){
+    val hasha = IntSignature(a)
+    val hashb = IntSignature(b)
+    val sim1 = LSH.Cosine(hasha, hashb)
+    val sim2 = LSH.Cosine(a, b)
+    println(s"[$sim1, $sim2] LSH($hasha):$a LSH($hashb):$b")
+  }
+
+  it should "Get Similarity LSH" in {
+    val _IntSignature = LSH.forIntSignature(8, 3)
+    def IntSignature(data:Iterable[Int]) = _IntSignature(data)
+
+    SimilarityTest(IntSignature, Array(1,2,3,4,1,2,3,4), Array(1,2,3,4,1,2,3,4))
+    SimilarityTest(IntSignature, Array(1,2,3,4,9,2,3,4), Array(1,2,3,4,1,2,3,4))
+    SimilarityTest(IntSignature, Array(1,91,3,4,1,132,-3,4), Array(1,2,3,4,1,2,3,4))
+    SimilarityTest(IntSignature, Array(51,2,43,14,211,82,3,4), Array(1,2,3,4,1,2,3,4))
+  }
 }

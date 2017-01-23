@@ -35,4 +35,17 @@ trait LSHHelper extends NumberConversions {
 
     new RepeatingLSH(signature)
   }
+
+  def forIntSignature(dim:Int, size:Int):HyperplaneSignatureLSH[Int] = {
+    new HyperplaneSignatureLSH(Array.fill(size)(
+      seed(dim)
+    ))
+  }
+  
+  def Cosine(a:Iterable[Int], b:Iterable[Int]):Double = {
+    val a2 = Number.dot(a, a)
+    val b2 = Number.dot(b, b)
+    val ret = Number.dot(a, b) / (math.sqrt(a2) * math.sqrt(b2))
+    if(ret > 0) ret else -ret
+  }
 }
