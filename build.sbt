@@ -1,5 +1,5 @@
 name := "scala-lsh"
-version := "0.1.x"
+version := "0.1.0"
 organization := "org.janzhou"
 
 scalaVersion := "2.12.1"
