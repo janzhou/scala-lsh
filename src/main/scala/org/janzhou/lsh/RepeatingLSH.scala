@@ -1,6 +1,6 @@
 package org.janzhou.LSH
 
-class RepeatingLSH[T <% Number[T]](private val signature:HyperplaneSignatureLSH[T])(implicit zero:T)
+class RepeatingLSH[T <% Number[T]](private val signature:SignatureLSH[T])(implicit zero:T)
 extends LSH[T] {
   private val rand = new scala.util.Random(System.nanoTime)
   private val seeds:Iterable[Long] = Array.fill(signature.size)(rand.nextLong())
