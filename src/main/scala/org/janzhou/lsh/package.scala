@@ -1,7 +1,7 @@
 package org.janzhou
 
 /**
- * Locality Sensitive Hashing (LSH) is a family of hashing methods that tent to produce the same hash (or signature) for similar items.
+ * [[https://janzhou.org/lsh/ Locality Sensitive Hashing (LSH)]] is a family of hashing methods that tent to produce the same hash (or signature) for similar items.
  *
  * {{{
  * import org.janzhou.LSH

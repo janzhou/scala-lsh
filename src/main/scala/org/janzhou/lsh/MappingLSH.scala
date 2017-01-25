@@ -1,7 +1,7 @@
 package org.janzhou.LSH
 
 /**
- * Convert a signature to Long type. It is intended to use in conjunction with MinSignatureLSH.
+ * Convert a signature to Long type. It is intended to use in conjunction with [[MinSignatureLSH]].
  */
 class MappingLSH[T <% Number[T]](private val signature: SignatureLSH[T], private val prime:T)
 extends LSH[T] {

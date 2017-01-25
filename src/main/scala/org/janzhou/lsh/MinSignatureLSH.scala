@@ -1,5 +1,8 @@
 package org.janzhou.LSH
 
+/**
+ * MinHash implementation. Use on dataset with Jaccard/Set Similarity.
+ */
 class MinSignatureLSH[T <% Number[T]](private val seeds:Iterable[(T, T)], private val prime:T)
 extends SignatureLSH[T] {
   val size = seeds.size

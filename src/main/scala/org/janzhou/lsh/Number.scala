@@ -14,6 +14,22 @@ trait Number[T] {
   def <(x: T): Boolean
 }
 
+/**
+ * Help object for Number operations.
+ */
+object Number {
+  /**
+   * Define the dot product of two vectors.
+   */
+  def dot[T <% Number[T]](a: Iterable[T], b: Iterable[T])(implicit zero: T):T = {
+    a.zip(b).map({ case (x, y) => x*y }).foldLeft(zero)(_+_)
+  }
+
+  def hashCode[T <% Number[T]](x: T, a: T, b: T, prime: T):T = {
+    (a * x + b ) % prime
+  }
+}
+
 class NumberDouble(val self:Double) extends Number[Double] {
   def +(x: Double): Double = self + x
   def -(x: Double): Double = self - x
@@ -54,25 +70,23 @@ class NumberInt(val self:Int) extends Number[Int] {
   def >(x: Int): Boolean = self > x
 }
 
-object Number {
-  def dot[T <% Number[T]](a: Iterable[T], b: Iterable[T])(implicit zero: T):T = {
-    a.zip(b).map({ case (x, y) => x*y }).foldLeft(zero)(_+_)
-  }
-
-  def hashCode[T <% Number[T]](x: T, a: T, b: T, prime: T):T = {
-    (a * x + b ) % prime
-  }
-}
-
+/**
+ * Implicit type conversion between primary data (Double, Float, Long, Int) and Number.
+ */
 trait NumberConversions {
-
   import scala.language.implicitConversions
 
+  /**
+   * Add dot method to Array.
+   */
   implicit class NumberArray[T <% Number[T]](val self: Array[T])(implicit zero: T){
     def *(that: Array[T]):T = dot(that)
     def dot(that: Array[T]):T = Number.dot(self, that)
   }
 
+  /**
+   * Add dot method to Iterable.
+   */
   implicit class NumberIterable[T <% Number[T]](val self: Iterable[T])(implicit zero: T){
     def *(that: Iterable[T]):T = dot(that)
     def dot(that: Iterable[T]):T = Number.dot(self, that)
